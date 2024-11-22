@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="post_detail_div">
+        <h1>{{ post.title }}</h1>
+        {% if post.image %}
+            <div class = "img_div">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
+            </div>
+        {% endif %}
+        <p>{{ post.content }}</p>
+        <p>Publication Date: {{ post.published_date|date:"d M Y" }}</p>
+        <div class="categories">
+            <p>Category: </p>
+            <ul>
+                {% for category in post.categories.all %}
+                    <li>{{ category.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <details>
+            <summary>Show comments</summary>
+            <div id="comments-section">
+                {% for comment in post.comments.all %}
+                    <div class="comment">
+                        <p><strong>{{ comment.author.username }}</strong>:</p>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                {% empty %}
+                    <p>No comments</p>
+                {% endfor %}
+            </div>
+        </details>
+    </div>
+{% endblock %}
